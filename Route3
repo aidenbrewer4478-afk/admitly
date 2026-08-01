@@ -1,0 +1,55 @@
+// app/api/admitly/checkout/route.ts
+
+import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
+import { verifyGoogleAccessToken, extractBearerToken } from '@/lib/verifyGoogleToken';
+import { corsHeaders } from '@/lib/admitlyCors';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+export async function OPTIONS(req: NextRequest) {
+  return new NextResponse(null, { headers: corsHeaders(req.headers.get('origin')) });
+}
+
+export async function POST(req: NextRequest) {
+  const headers = corsHeaders(req.headers.get('origin'));
+
+  const token = extractBearerToken(req.headers.get('authorization'));
+  const email = await verifyGoogleAccessToken(token);
+  if (!email) {
+    return NextResponse.json({ error: 'Not signed in or token expired.' }, { status: 401, headers });
+  }
+
+  const priceId = process.env.STRIPE_ADMITLY_PRICE_ID;
+  if (!priceId) {
+    return NextResponse.json({ error: 'Server misconfigured: missing price ID.' }, { status: 500, headers });
+  }
+
+  const session = await stripe.checkout.sessions.create({
+    mode: 'subscription',
+    line_items: [{ price: priceId, quantity: 1 }],
+    customer_email: email,
+    client_reference_id: email,
+    success_url: 'https://YOUR-DOMAIN-HERE/upgraded',
+    cancel_url: 'https://YOUR-DOMAIN-HERE/canceled',
+  });
+
+  return NextResponse.json({ url: session.url }, { headers });
+}
+
+// --- Add this branch to your Stripe webhook handler once you set one up ---
+// IMPORTANT: verify the stripe-signature header with
+// stripe.webhooks.constructEvent(rawBody, sig, endpointSecret) — without
+// that check, anyone could fake this event and grant themselves a
+// subscription for free.
+//
+// if (event.type === 'checkout.session.completed') {
+//   const session = event.data.object as Stripe.Checkout.Session;
+//   await supabase
+//     .from('admitly_users')
+//     .update({
+//       subscription_status: 'active',
+//       stripe_customer_id: session.customer as string,
+//     })
+//     .eq('email', session.client_reference_id);
+// }
