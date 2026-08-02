@@ -6,7 +6,7 @@
 // after you load it unpacked) and your web app's real domain.
 
 export const ALLOWED_ORIGINS = [
-  'https://agentreply.org',
+  'https://admitly-woad.vercel.app',
   'chrome-extension://REPLACE_WITH_YOUR_EXTENSION_ID',
 ];
 
