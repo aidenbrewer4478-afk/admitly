@@ -1,0 +1,126 @@
+/**
+ * Admitly — Google Docs Editor Add-on (secured version)
+ *
+ * IMPORTANT: this version holds NO API key at all. Every call — checking
+ * free/paid status, getting essay feedback, starting checkout — goes
+ * through your backend at BACKEND_BASE_URL, authenticated with a real
+ * Google OAuth token that the backend verifies directly with Google.
+ * The Anthropic key lives only in your Vercel environment variables.
+ *
+ * SETUP: see README.md
+ */
+
+const BACKEND_BASE_URL = 'https://admitly-woad.vercel.app/api/admitly';
+
+/**
+ * Card shown when a user opens the add-on, on any doc.
+ */
+function onHomepage(e) {
+  const access = checkAccess();
+
+  const section = CardService.newCardSection().addWidget(
+    CardService.newTextParagraph().setText(
+      access.isPaid
+        ? 'Unlimited plan active. Open a doc and review your essay.'
+        : 'Free plan: ' + access.remaining + ' of 2 essay reviews left this month.'
+    )
+  ).addWidget(
+    CardService.newTextButton()
+      .setText('Review the open essay')
+      .setOnClickAction(CardService.newAction().setFunctionName('openSidebarAction'))
+  );
+
+  if (!access.isPaid) {
+    section.addWidget(
+      CardService.newTextButton()
+        .setText('Upgrade — $12/mo unlimited')
+        .setOpenLink(CardService.newOpenLink().setUrl(getCheckoutUrlForCurrentUser()))
+    );
+  }
+
+  return CardService.newCardBuilder()
+    .setHeader(CardService.newCardHeader().setTitle('Admitly'))
+    .addSection(section)
+    .build();
+}
+
+function openSidebarAction() {
+  const html = HtmlService.createHtmlOutputFromFile('Sidebar').setTitle('Admitly');
+  DocumentApp.getUi().showSidebar(html);
+  return CardService.newActionResponseBuilder().setStateChanged(true).build();
+}
+
+/**
+ * A valid Google OAuth token for the CURRENT signed-in user, scoped to
+ * what's declared in appsscript.json. This is what proves identity to the
+ * backend — nothing is hardcoded, it's freshly issued by Google each call.
+ */
+function getUserAuthToken() {
+  return ScriptApp.getOAuthToken();
+}
+
+function getAccessStatus() {
+  return checkAccess();
+}
+
+function getEssayText() {
+  const doc = DocumentApp.getActiveDocument();
+  const text = doc.getBody().getText();
+  return { title: doc.getName(), text: text, wordCount: countWords(text) };
+}
+
+function countWords(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return 0;
+  return trimmed.split(/\s+/).length;
+}
+
+/**
+ * Sends the essay to the backend, which verifies identity, checks the
+ * paywall, calls Claude server-side, and returns feedback. No API key
+ * touches this file at all.
+ */
+function getFeedback(essayText, essayType) {
+  const response = UrlFetchApp.fetch(BACKEND_BASE_URL + '/feedback', {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { Authorization: 'Bearer ' + getUserAuthToken() },
+    payload: JSON.stringify({ essayText: essayText, essayType: essayType }),
+    muteHttpExceptions: true
+  });
+
+  const code = response.getResponseCode();
+  const body = JSON.parse(response.getContentText());
+
+  if (code === 402) {
+    throw new Error('PAYWALL: Free reviews used up for this month. Upgrade for $12/mo unlimited.');
+  }
+  if (code !== 200) {
+    throw new Error(body.error || 'Something went wrong getting feedback.');
+  }
+
+  return body.feedback;
+}
+
+function checkAccess() {
+  const response = UrlFetchApp.fetch(BACKEND_BASE_URL + '/usage', {
+    headers: { Authorization: 'Bearer ' + getUserAuthToken() },
+    muteHttpExceptions: true
+  });
+  if (response.getResponseCode() !== 200) {
+    return { isPaid: false, remaining: 0 };
+  }
+  return JSON.parse(response.getContentText());
+}
+
+function getCheckoutUrlForCurrentUser() {
+  const response = UrlFetchApp.fetch(BACKEND_BASE_URL + '/checkout', {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { Authorization: 'Bearer ' + getUserAuthToken() },
+    payload: JSON.stringify({}),
+    muteHttpExceptions: true
+  });
+  const data = JSON.parse(response.getContentText());
+  return data.url;
+}
