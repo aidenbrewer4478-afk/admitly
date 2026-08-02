@@ -16,15 +16,18 @@ export async function verifyGoogleAccessToken(accessToken: string): Promise<stri
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
-    if (!res.ok) return null; // expired/invalid/revoked token
-
-    const data = await res.json();
-    if (!data.email || data.email_verified !== true && data.email_verified !== 'true') {
-      // Reject unverified email addresses on the Google account.
+    if (!res.ok) {
+      // TEMPORARY: log the real reason so we can see it in Vercel's Runtime Logs.
+      const body = await res.text();
+      console.error('Google token verification failed:', res.status, body);
       return null;
     }
+
+    const data = await res.json();
+    if (!data.email) return null;
     return data.email as string;
-  } catch {
+  } catch (err) {
+    console.error('Google token verification threw an error:', err);
     return null;
   }
 }
