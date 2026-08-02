@@ -13,6 +13,17 @@
 const BACKEND_BASE_URL = 'https://admitly-woad.vercel.app/api/admitly';
 
 /**
+ * Simple menu for testing on your own doc — no deployment or "Install
+ * add-on" step needed. Just save this file and reload the doc.
+ */
+function onOpen() {
+  DocumentApp.getUi()
+    .createMenu('Admitly')
+    .addItem('Review this essay', 'openSidebarAction')
+    .addToUi();
+}
+
+/**
  * Card shown when a user opens the add-on, on any doc.
  */
 function onHomepage(e) {
