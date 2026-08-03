@@ -12,7 +12,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "@supabase/supabase-js": "2.45.4",
-    "stripe": "16.8.0"
+    "stripe": "22.4.0"
   },
   "devDependencies": {
     "typescript": "5.5.4",
