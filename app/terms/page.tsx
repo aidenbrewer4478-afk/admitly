@@ -2,7 +2,7 @@ export default function Terms() {
   return (
     <main style={styles.main}>
       <h1 style={styles.h1}>Admit<span style={{ color: '#E8735A' }}>ly</span> — Terms of Service</h1>
-      <p style={styles.updated}>Last updated: [add today's date when you publish this]</p>
+      <p style={styles.updated}>Last updated: August 2, 2026</p>
 
       <h2 style={styles.h2}>What Admitly is</h2>
       <p style={styles.p}>
