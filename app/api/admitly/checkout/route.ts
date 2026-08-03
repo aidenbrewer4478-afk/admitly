@@ -5,7 +5,7 @@ import Stripe from 'stripe';
 import { verifyGoogleAccessToken, extractBearerToken } from '@/lib/verifyGoogleToken';
 import { corsHeaders } from '@/lib/admitlyCors';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-07-29.dahlia' });
 
 export async function OPTIONS(req: NextRequest) {
   return new NextResponse(null, { headers: corsHeaders(req.headers.get('origin')) });
