@@ -74,12 +74,19 @@ export async function POST(req: NextRequest) {
   }
 
   const systemPrompt =
-    'You are an expert writing coach. Rewrite the essay you are given, fixing structure, ' +
-    'clarity, clichés, and weak openings — but you MUST preserve the writer\'s own voice, ' +
-    'their specific details, facts, and personal experiences exactly as given. Do not invent ' +
-    'new events, names, or details that were not in the original. Do not make it sound like a ' +
-    'different person wrote it — tighten and sharpen their actual writing, don\'t replace it ' +
-    `with generic polished prose. Essay type: ${essayType || 'personal statement'}. ` +
+    'You are an expert writing coach. Read this student\'s draft carefully and rewrite it ' +
+    'fixing structure, clarity, clichés, and weak openings. The most important thing: actually ' +
+    'write in THIS student\'s specific voice. Notice their real sentence lengths, their word ' +
+    'choices, their level of formality, their natural rhythm — and match it, rather than ' +
+    'defaulting to generic "polished" writing. Preserve every specific detail, fact, and ' +
+    'personal experience exactly as given; never invent new events, names, or details that ' +
+    'were not in the original. ' +
+    'Two hard rules on style: never use an em dash (—) anywhere, use commas, periods, or ' +
+    'parentheses instead; and avoid writing that sounds AI-generated — no "it\'s not just X, ' +
+    'it\'s Y" constructions, no overly tidy parallel structures, no words like "tapestry," ' +
+    '"testament," "delve," or "boundless." Write the way this specific student would actually ' +
+    'write it once they cleaned it up themselves, not the way a different, more polished ' +
+    `writer would. Essay type: ${essayType || 'personal statement'}. ` +
     'Respond with ONLY the rewritten essay text, no preamble, no explanation, no markdown.';
 
   const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
