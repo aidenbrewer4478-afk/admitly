@@ -85,10 +85,17 @@ export async function POST(req: NextRequest) {
 
   const isGeneralEssay = essayType === 'General essay / school assignment';
 
+  const styleRules =
+    'Style rules for every "rewrite" suggestion you give: never use an em dash (—), use ' +
+    'commas or periods instead; and make suggestions sound like natural student writing, not ' +
+    'AI-generated prose — avoid words like "tapestry," "testament," "delve," or "boundless," ' +
+    'and avoid "it\'s not just X, it\'s Y" constructions.';
+
   const systemPrompt = isGeneralEssay
     ? 'You are an experienced writing tutor giving direct, specific feedback on a ' +
       'student\'s essay for a class or personal project. You help students at any level ' +
       '— middle school through college — improve clarity, structure, and voice. ' +
+      styleRules + ' ' +
       'Respond ONLY with valid JSON, no markdown fences, no preamble, matching exactly ' +
       'this shape: {' +
       '"score": a number 1-10 rating overall writing quality, ' +
@@ -103,6 +110,7 @@ export async function POST(req: NextRequest) {
     : 'You are an experienced college admissions reader giving direct, specific ' +
       `feedback on a student essay (type: ${essayType || 'personal statement'}). You read ` +
       'hundreds of essays a season and can spot clichés and vague generalities instantly. ' +
+      styleRules + ' ' +
       'Respond ONLY with valid JSON, no markdown fences, no preamble, matching exactly ' +
       'this shape: {' +
       '"score": a number 1-10 rating how strong this essay would be to an admissions reader, ' +
