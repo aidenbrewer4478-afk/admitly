@@ -2,7 +2,7 @@ export default function Privacy() {
   return (
     <main style={styles.main}>
       <h1 style={styles.h1}>Admit<span style={{ color: '#E8735A' }}>ly</span> — Privacy Policy</h1>
-      <p style={styles.updated}>Last updated: [add today's date when you publish this]</p>
+      <p style={styles.updated}>Last updated: August 2, 2026</p>
 
       <p style={styles.p}>
         This explains what Admitly collects, why, and what we don't do with it.
