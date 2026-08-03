@@ -25,16 +25,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Server misconfigured: missing price ID.' }, { status: 500, headers });
   }
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'subscription',
-    line_items: [{ price: priceId, quantity: 1 }],
-    customer_email: email,
-    client_reference_id: email,
-    success_url: 'https://admitly-woad.vercel.app/upgraded',
-    cancel_url: 'https://admitly-woad.vercel.app/canceled',
-  });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      line_items: [{ price: priceId, quantity: 1 }],
+      customer_email: email,
+      client_reference_id: email,
+      success_url: 'https://admitly-woad.vercel.app/upgraded',
+      cancel_url: 'https://admitly-woad.vercel.app/canceled',
+    });
 
-  return NextResponse.json({ url: session.url }, { headers });
+    return NextResponse.json({ url: session.url }, { headers });
+  } catch (err: any) {
+    // Surface the real Stripe error instead of failing silently.
+    return NextResponse.json({ error: 'Stripe error: ' + err.message }, { status: 500, headers });
+  }
 }
 
 // --- Add this branch to your Stripe webhook handler once you set one up ---
