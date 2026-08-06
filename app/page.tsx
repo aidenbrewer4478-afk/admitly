@@ -326,6 +326,69 @@ export default function Home() {
     font-size:13px; color:var(--muted);
   }
 
+  /* ---------- FEATURES ---------- */
+  .feature-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .feature-card{
+    background:var(--bg);
+    padding:40px 36px;
+  }
+  .feature-icon{width:48px; height:48px; margin-bottom:20px;}
+  .feature-card h3{
+    font-family:'Fraunces', serif;
+    font-size:21px;
+    font-weight:600;
+    margin-bottom:10px;
+    color:var(--ink);
+  }
+  .feature-card p{font-size:14.5px; color:var(--paper-dim); line-height:1.6;}
+  .feature-demo{
+    margin-top:18px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:14px 16px;
+    font-size:13px;
+  }
+  .feature-demo .demo-label{
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    color:var(--coral-dim);
+    margin-bottom:6px;
+  }
+  .feature-demo .demo-strike{
+    color:#a39b89;
+    text-decoration:line-through;
+    text-decoration-color:var(--coral-dim);
+  }
+  .feature-demo .demo-fix{
+    font-family:'Patrick Hand', cursive;
+    color:var(--coral-dim);
+    font-size:15px;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-list{max-width:760px;}
+  .faq-item{
+    border-bottom:1px solid var(--line);
+    padding:24px 0;
+  }
+  .faq-item h3{
+    font-family:'Fraunces', serif;
+    font-size:17px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:8px;
+  }
+  .faq-item p{font-size:14.5px; color:var(--paper-dim); line-height:1.6;}
+
   @media(max-width:860px){
     .hero{grid-template-columns:1fr; padding:50px 0 60px;}
     h1{font-size:40px;}
@@ -333,6 +396,7 @@ export default function Home() {
     .steps{grid-template-columns:1fr;}
     .pricing-card{grid-template-columns:1fr; text-align:center;}
     .nav-links{display:none;}
+    .feature-grid{grid-template-columns:1fr;}
   }
 ` }} />
       <div dangerouslySetInnerHTML={{ __html: `
@@ -341,8 +405,10 @@ export default function Home() {
   <nav>
     <div class="logo">Admit<span>ly</span></div>
     <div class="nav-links">
+      <a href="#features" class="nav-link-btn">Features</a>
       <a href="#how" class="nav-link-btn">How it works</a>
       <a href="#pricing" class="nav-link-btn">Pricing</a>
+      <a href="#faq" class="nav-link-btn">FAQ</a>
     </div>
     <a href="#pricing" class="nav-cta">Try it free</a>
   </nav>
@@ -396,7 +462,98 @@ export default function Home() {
   </div>
 </div>
 
-<div class="wrap section" id="how">
+<div class="wrap section" id="features">
+  <div class="section-head">
+    <div class="section-tag">What you actually get</div>
+    <h2>Not just "make it better." Exactly what's wrong, and exactly how to fix it.</h2>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 80 80">
+        <path d="M40,6 C58,4 74,20 75,40 C76,60 60,75 40,74 C20,73 5,58 6,39 C7,20 22,7 40,6" fill="none" stroke="#E8735A" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M24,42 L34,52 L58,26" fill="none" stroke="#E8735A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>A real score, not a vibe</h3>
+      <p>Every review comes back with a number out of 10 and the exact reason behind it — so you know if you're actually ready to submit, or still have real work to do.</p>
+      <div class="feature-demo">
+        <div class="demo-label">Score</div>
+        <span style="font-family:'Fraunces',serif; font-weight:700; font-size:22px; color:var(--ink);">7</span><span style="color:var(--muted); font-size:12px;"> / 10</span>
+        <div style="margin-top:6px; color:var(--paper-dim);">"Strong core anecdote, but the ending falls back into summary instead of insight."</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 80 80">
+        <path d="M40,6 C58,4 74,20 75,40 C76,60 60,75 40,74 C20,73 5,58 6,39 C7,20 22,7 40,6" fill="none" stroke="#E8735A" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M24,42 L34,52 L58,26" fill="none" stroke="#E8735A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>A full rewrite, still sounding like you</h3>
+      <p>Not a generic "more polished" version — a rewrite that keeps your specific details, your sentence rhythm, your voice. Fixes the structure, doesn't replace the writer.</p>
+      <div class="feature-demo">
+        <div class="demo-label">Rewrite</div>
+        <div class="demo-strike">I have always been passionate about helping others.</div>
+        <div class="demo-fix">↳ The smell of diesel and low tide still means more to me than any classroom ever could.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 80 80">
+        <path d="M40,6 C58,4 74,20 75,40 C76,60 60,75 40,74 C20,73 5,58 6,39 C7,20 22,7 40,6" fill="none" stroke="#E8735A" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M24,42 L34,52 L58,26" fill="none" stroke="#E8735A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>Every essay, not just the Common App</h3>
+      <p>Supplementals, scholarship essays, and general school writing all get the same level of specific feedback — this isn't a one-essay tool.</p>
+      <div class="feature-demo">
+        <div class="demo-label">Essay type</div>
+        <div style="color:var(--ink);">Common App · Supplemental · Scholarship · General essay</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 80 80">
+        <path d="M40,6 C58,4 74,20 75,40 C76,60 60,75 40,74 C20,73 5,58 6,39 C7,20 22,7 40,6" fill="none" stroke="#E8735A" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M24,42 L34,52 L58,26" fill="none" stroke="#E8735A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>Watch it actually improve</h3>
+      <p>Every round is saved. Come back and see your score climb from your first draft to your last, instead of wondering if your edits even helped.</p>
+      <div class="feature-demo">
+        <div class="demo-label">Version history</div>
+        <div style="color:var(--ink);">Round 1: 5/10 → Round 2: 7/10 → Round 3: 9/10</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap section" id="faq">
+  <div class="section-head">
+    <div class="section-tag">Questions</div>
+    <h2>Before you try it</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <h3>Does this write the essay for me?</h3>
+      <p>No. Admitly critiques and suggests rewrites for writing that's already yours — it won't invent new stories, details, or experiences you haven't actually had. It's a feedback tool, not a ghostwriter.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is my essay stored anywhere, or private?</h3>
+      <p>Your essay is only ever visible to you, tied to your own signed-in account. We don't sell it, share it, or use it to train any AI model. Full details are in our <a href="/privacy" style="color:var(--coral-dim);">privacy policy</a>.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does it work for supplemental and scholarship essays too?</h3>
+      <p>Yes — pick the essay type from the dropdown and the feedback adjusts accordingly. There's also a General essay mode for regular school writing assignments, not just admissions.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What happens after my 2 free reviews?</h3>
+      <p>You can upgrade to Unlimited for $12/month anytime, or wait until next month when your free reviews reset. No surprise charges — you always see exactly where you stand before hitting the limit.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I cancel anytime?</h3>
+      <p>Yes. Cancel whenever you want and you won't be charged again — your access continues through the end of whatever period you already paid for.</p>
+    </div>
+  </div>
+</div>
+  <div class="section-head">
+    <div class="section-tag">How it works</div>
+    <h2>Paste it. See what's actually wrong. Fix it.</h2>
+  </div>
+  <div class="wrap section" id="how">
   <div class="section-head">
     <div class="section-tag">How it works</div>
     <h2>Paste it. See what's actually wrong. Fix it.</h2>
@@ -468,7 +625,7 @@ export default function Home() {
 <div class="wrap">
   <footer>
     <div>Admit<span style="color:var(--coral);">ly</span> — for the essay that has to sound like you, not everyone else.</div>
-    <div><a href="/about" style="color:var(--muted); margin-right:16px;">About</a><a href="/privacy" style="color:var(--muted); margin-right:16px;">Privacy</a><a href="/terms" style="color:var(--muted); margin-right:16px;">Terms</a>hello@admitly.io</div>
+    <div><a href="/about" style="color:var(--muted); margin-right:16px;">About</a><a href="/privacy" style="color:var(--muted); margin-right:16px;">Privacy</a><a href="/terms" style="color:var(--muted); margin-right:16px;">Terms</a>hello@admitlyapp.com</div>
   </footer>
 </div>
 
