@@ -2,7 +2,7 @@ export default function Home() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Patrick+Hand&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&family=Patrick+Hand&display=swap');
 
   :root{
     --ink:#2E2A24;
@@ -240,8 +240,8 @@ export default function Home() {
     margin-bottom:14px;
   }
   h2{
-    font-family:'Fraunces', serif;
-    font-weight:600;
+    font-family:'Lora', serif;
+    font-weight:700;
     font-size:38px;
     color:var(--ink);
   }
