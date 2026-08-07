@@ -603,7 +603,7 @@ export default function Home() {
           <li>No card required</li>
         </ul>
       </div>
-      <a href="#" class="btn-ghost btn-block" style="display:block; padding:13px 0; border:1px solid var(--line); border-radius:2px;">Get started free</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSclixti8L7vuMelz0MkqvOm3-lY3ENCU7WNr1e5T24hQo1qzw/viewform" target="_blank" class="btn-ghost btn-block" style="display:block; padding:13px 0; border:1px solid var(--line); border-radius:2px;">Get started free</a>
     </div>
     <div class="pricing-card featured">
       <div class="featured-tag">MOST POPULAR</div>
@@ -617,7 +617,7 @@ export default function Home() {
           <li>Cancel anytime</li>
         </ul>
       </div>
-      <a href="#" class="btn-primary btn-block">Upgrade to Unlimited</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSclixti8L7vuMelz0MkqvOm3-lY3ENCU7WNr1e5T24hQo1qzw/viewform" target="_blank" class="btn-primary btn-block">Upgrade to Unlimited</a>
     </div>
   </div>
 </div>
